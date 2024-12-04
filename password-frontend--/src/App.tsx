@@ -1,10 +1,11 @@
 import './App.css'
+import MainPage from './containers/MainPage.tsx';
 
 const App = () => {
 
   return (
     <>
-ddd
+      <MainPage/>
     </>
   )
 };
