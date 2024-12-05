@@ -1,34 +1,41 @@
 import express from 'express';
+import cors from 'cors';
 
 const Vigenere = require('caesar-salad').Vigenere;
 const app = express();
 const port = 8000;
 
-const password = 'hello';
+app.use(express.json());
+app.use(cors());
+
+const mainPassword = 'hello';
 
 app.get('/password', (req, res) => {
     res.send('simple page :)');
 })
 
-app.get('/password/encode/:text', (req, res) => {
-    const params = req.params.text;
+app.post('/encode', (req, res) => {
+    const { password, message } = req.body;
 
-    if(password === params) {
-        const cipher = Vigenere.Cipher(password).crypt(params);
-
-        res.send(`Your encrypted password: ${cipher}`);
+    if (password === mainPassword) {
+        const encoded = Vigenere.Cipher(password).crypt(message);
+        res.json({ encoded });
     } else {
-        res.send('wrong password');
+        res.status(400).send('password is wrong');
     }
 
 });
 
-app.get('/password/decode/:text', (req, res) => {
-    const params = req.params.text;
+app.post('/decode', (req, res) => {
+    const { password, message } = req.body;
 
-    const decipher = Vigenere.Decipher(password).crypt(params);
+    if (password === mainPassword) {
+        const decoded = Vigenere.Decipher(password).crypt(message);
+        res.json({ decoded });
+    }else {
+        res.status(400).send('password is wrong');
+    }
 
-    res.send(`Your decrypted password: ${decipher} `);
 });
 
 app.listen(port, () => {
