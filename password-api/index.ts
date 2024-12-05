@@ -19,9 +19,9 @@ app.post('/encode', (req, res) => {
 
     if (password === mainPassword) {
         const encoded = Vigenere.Cipher(password).crypt(message);
-        res.json({ encoded });
+        res.json({ encoded: encoded });
     } else {
-        res.status(400).send('password is wrong');
+        res.send('password is wrong');
     }
 
 });
@@ -31,9 +31,9 @@ app.post('/decode', (req, res) => {
 
     if (password === mainPassword) {
         const decoded = Vigenere.Decipher(password).crypt(message);
-        res.json({ decoded });
+        res.json({ decoded: decoded });
     }else {
-        res.status(400).send('password is wrong');
+        res.send('password is wrong');
     }
 
 });
