@@ -12,16 +12,23 @@ app.get('/password', (req, res) => {
 
 app.get('/password/encode/:text', (req, res) => {
     const params = req.params.text;
-    const cipher = Vigenere.Cipher(password).crypt(params);
 
-     res.send(`Your encrypted password: ${cipher} `);
+    if(password === params) {
+        const cipher = Vigenere.Cipher(password).crypt(params);
+
+        res.send(`Your encrypted password: ${cipher}`);
+    } else {
+        res.send('wrong password');
+    }
+
 });
 
 app.get('/password/decode/:text', (req, res) => {
     const params = req.params.text;
+
     const decipher = Vigenere.Decipher(password).crypt(params);
 
-     res.send(`Your decrypted password: ${decipher} `);
+    res.send(`Your decrypted password: ${decipher} `);
 });
 
 app.listen(port, () => {
